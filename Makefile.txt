@@ -1,0 +1,22 @@
+# -*- MakeFile -*-
+
+main: y.tab.o lex.yy.o
+	gcc lex.yy.o y.tab.o -o chatbot -ll
+	@echo "lexYacc compiled"
+
+y.tab.o: y.tab.c y.tab.h
+	gcc -c y.tab.c
+lex.yy.o: lex.yy.c
+	gcc -c lex.yy.c
+
+y.tab.c y.tab.h &: parser.y
+	yacc -d parser.y
+lex.yy.c: lexer.l
+	lex lexer.l
+
+clean:
+	rm *.o
+	rm lex.yy.c
+	rm y.tab.c
+	rm y.tab.h
+	rm chatbot
